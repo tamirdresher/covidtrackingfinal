@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "NyHBTuBz/Jlf5uMXKNNQs/5IIqpLaTfzTq966wGKbgg=",
+  "Source": "covidtracking",
+  "BasePath": "_content/covidtracking",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
