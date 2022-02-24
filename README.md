@@ -69,3 +69,21 @@ https://www.postman.com/lunar-firefly-552571/workspace/covidtracking
 This github repository has an automatic CI/CD workflow.</br>
 It is implemented using github actions and is activated on each push/pull request to the 'main' branch.</br>
 The workflow builds the project and commits 30 unit tests.</br>
+
+<h1>Endpoints</h1>
+
+| Endpoint                                     | Description                                                                                                                                                                              |
+|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PUT /patients                                | Add a new patient to be tracked by the system                                                                                                                                            |
+| GET /patients                                | Returns the list of all the patients tracked by the system (only real patients and not potential ones)                                                                                   |
+| PUT /patients/{id}/route                     | Add a location a patient visited during the last 7 days                                                                                                                                  |
+| GET /patients/{id}/route                     | Returns the list of all the locations the patient visited in during the last 7 days                                                                                                      |
+| PUT /patients/{id}/encounters                | Add the details of a person the patient met during the last 7 days                                                                                                                       |
+| GET /patients/{id}/encounters                | Return the list of the people the patient met during the last 7 days                                                                                                                     |
+| GET /patients/{id}/full                      | Returns the person details and whether he is sick or not together with all his/her lab tests                                                                                             |
+| GET /patients/new?since=[VALUE]              | Will display a list of all sick people who were added after the value of 'since'                                                                                                         |
+| GET /patients/potential                      | Returns the list of encounters where the person details were not inserted yet                                                                                                            |
+| GET /patients/isolated                       | Returns the list of all the people in the system that are in isolation (person is isolated until he has two negative tests since he encountered an infected person or reported infected) |
+| POST patients/potential/{potentialPatientId} | Remove the potential patient and transform him into real patient                                                                                                                         |
+| POST /labtests                               | Add a lab test result                                                                                                                                                                    |
+| GET /statistics                              | Returns statistics about the current state – amount of sicks, amount of isolated, how many have healed, and how many sick we have per city                                               |
