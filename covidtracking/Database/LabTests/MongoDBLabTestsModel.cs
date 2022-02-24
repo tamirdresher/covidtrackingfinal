@@ -1,7 +1,8 @@
 using covidtracking.Entities;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBLabTestsModel : ILabTestsDB
     {
         //Database access constants
@@ -40,7 +41,7 @@ namespace covidtracking.Database{
         //This method finds and returns the person's labtset record by id
         public async Task<LabTests> GetLabTests(string id)
         {
-            var filter = filterBuilder.Eq( l => l.id, id);
+            var filter = filterBuilder.Eq(l => l.id, id);
             return await labtestsCollection.Find(filter).SingleOrDefaultAsync();
         }
 

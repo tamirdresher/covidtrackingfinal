@@ -1,7 +1,9 @@
 using covidtracking.Dtos;
 
-namespace covidtracking.Entities{
-public class LabTestResult{ 
+namespace covidtracking.Entities
+{
+    public class LabTestResult
+    {
         public string labId { get; set; }
         public string testId { get; set; }
         public string patientId { get; set; }

@@ -1,6 +1,7 @@
 using covidtracking.Entities;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public interface IStatisticsDb
     {
         void InitStatisticsDb();

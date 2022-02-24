@@ -1,5 +1,7 @@
-namespace covidtracking.Entities{
-    public interface IPatient{
+namespace covidtracking.Entities
+{
+    public interface IPatient
+    {
         public string GetKey();
         public string GetId();
         public string GetFirstName();

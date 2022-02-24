@@ -2,7 +2,8 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBInfectedModel : IInfectedDB
     {
         //Database access constants
@@ -22,9 +23,10 @@ namespace covidtracking.Database{
 
         public async Task AddInfectedToDB(string id, DateTime infectedDateTime)
         {
-            var filter = filterBuilder.Eq( i => i.id, id);
+            var filter = filterBuilder.Eq(i => i.id, id);
             Infected infected = await infectedCollection.Find(filter).SingleOrDefaultAsync();
-            if(infected == null){
+            if (infected == null)
+            {
                 infected = new Infected(id, infectedDateTime);
                 await infectedCollection.InsertOneAsync(infected);
             }
@@ -38,7 +40,7 @@ namespace covidtracking.Database{
             HashSet<string> set = new HashSet<string>();
             foreach (Infected i in infected)
             {
-                if(i.infectedDateTime > since)
+                if (i.infectedDateTime > since)
                     set.Add(i.id);
             }
             return set;
@@ -46,7 +48,7 @@ namespace covidtracking.Database{
 
         public async Task RemoveInfectedFromDB(string id)
         {
-            var filter = filterBuilder.Eq( i => i.id, id);
+            var filter = filterBuilder.Eq(i => i.id, id);
             await infectedCollection.DeleteOneAsync(filter);
         }
     }

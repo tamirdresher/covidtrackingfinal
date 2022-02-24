@@ -2,7 +2,8 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBStatisticsModel : IStatisticsDb
     {
         //Database access constants
@@ -28,16 +29,20 @@ namespace covidtracking.Database{
         {
             bool addCity = false;
             Statistics statistics = statisticsCollection.Find(new BsonDocument()).FirstOrDefault();
-            if(statistics == null){
+            if (statistics == null)
+            {
                 statistics = new Statistics();
             }
-            foreach(CityStatistics cs in statistics.cityStatistics){
-                if(city == cs.city){
+            foreach (CityStatistics cs in statistics.cityStatistics)
+            {
+                if (city == cs.city)
+                {
                     addCity = true;
                     break;
                 }
             }
-            if(addCity == false){
+            if (addCity == false)
+            {
                 statistics.cityStatistics.Add(new CityStatistics(city));
                 UpdateStatistics(statistics);
             }
@@ -48,7 +53,7 @@ namespace covidtracking.Database{
         {
             return statisticsCollection.Find(new BsonDocument()).FirstOrDefault();
         }
-        
+
         //This method resetes the healed collection and creates a blank new one.
         public void InitStatisticsDb()
         {
@@ -63,21 +68,26 @@ namespace covidtracking.Database{
 
         public void UpdateCityInfected(string city, char operation)
         {
-            if(operation != '+' && operation != '-')
+            if (operation != '+' && operation != '-')
                 return;
             Statistics statistics = statisticsCollection.Find(new BsonDocument()).FirstOrDefault();
-            if(statistics == null){
+            if (statistics == null)
+            {
                 statistics = new Statistics();
             }
-            foreach(CityStatistics cs in statistics.cityStatistics){
-                if(city == cs.city){
-                    if(operation == '+'){
-                        cs.infected+=1;
-                        statistics.infected+=1;
-                    }   
-                    else{
-                        cs.infected-=1;
-                        statistics.infected-=1;
+            foreach (CityStatistics cs in statistics.cityStatistics)
+            {
+                if (city == cs.city)
+                {
+                    if (operation == '+')
+                    {
+                        cs.infected += 1;
+                        statistics.infected += 1;
+                    }
+                    else
+                    {
+                        cs.infected -= 1;
+                        statistics.infected -= 1;
                     }
                 }
             }
@@ -87,27 +97,31 @@ namespace covidtracking.Database{
         public void UpdateHealed()
         {
             Statistics statistics = statisticsCollection.Find(new BsonDocument()).FirstOrDefault();
-            if(statistics == null){
+            if (statistics == null)
+            {
                 statistics = new Statistics();
             }
-            statistics.healed+=1;
+            statistics.healed += 1;
             UpdateStatistics(statistics);
         }
-        
+
 
         public void UpdateIsolated(char operation)
         {
-            if(operation != '+' && operation != '-')
+            if (operation != '+' && operation != '-')
                 return;
             Statistics statistics = statisticsCollection.Find(new BsonDocument()).FirstOrDefault();
-            if(statistics == null){
+            if (statistics == null)
+            {
                 statistics = new Statistics();
             }
-            if(operation == '+'){
-                statistics.isolated+=1;
-            }   
-            else{
-                statistics.isolated-=1;
+            if (operation == '+')
+            {
+                statistics.isolated += 1;
+            }
+            else
+            {
+                statistics.isolated -= 1;
             }
             UpdateStatistics(statistics);
         }

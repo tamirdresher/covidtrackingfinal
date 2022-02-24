@@ -3,10 +3,12 @@ using covidtracking.Dtos;
 using covidtracking.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace covidtracking.Controllers{
+namespace covidtracking.Controllers
+{
     [ApiController]
     [Route("[controller]")]
-    public class IsolatedController : ControllerBase{
+    public class IsolatedController : ControllerBase
+    {
         private readonly IIsolatedDB _model;
         private readonly IPotentialPatientsDB _potentialPatientsDbModel;
         private readonly IPatientsDB _patientsDbModel;
@@ -23,18 +25,21 @@ namespace covidtracking.Controllers{
         //GET /patients/isolated
         [HttpGet]
         [Route("/patients/isolated")]
-        public async Task<ActionResult<IEnumerable<IsolatedDto>>> GetIsolatedAsync(){
+        public async Task<ActionResult<IEnumerable<IsolatedDto>>> GetIsolatedAsync()
+        {
             var isolated = await _model.GetIsolatedIdsAsync();
-            if(isolated == null){
+            if (isolated == null)
+            {
                 return NotFound();
             }
             var encountered = await _model.GetIsolatedEncounteredIdsAsync();
             List<IsolatedDto> isolatedList = new List<IsolatedDto>();
-            foreach((string id, string eId) in isolated.Zip(encountered)){
-                    var  encounteredPatient = await(_patientsDbModel.GetPatientAsync(eId));
-                    IPatient potentialPatientDetails = await(_potentialPatientsDbModel.GetPotentialPatientByIdAsync(id)) == null ?
-                        await(_patientsDbModel.GetPatientAsync(id)) : await(_potentialPatientsDbModel.GetPotentialPatientByIdAsync(id));
-                    isolatedList.Add(new IsolatedDto(encounteredPatient, potentialPatientDetails));
+            foreach ((string id, string eId) in isolated.Zip(encountered))
+            {
+                var encounteredPatient = await (_patientsDbModel.GetPatientAsync(eId));
+                IPatient potentialPatientDetails = await (_potentialPatientsDbModel.GetPotentialPatientByIdAsync(id)) == null ?
+                    await (_patientsDbModel.GetPatientAsync(id)) : await (_potentialPatientsDbModel.GetPotentialPatientByIdAsync(id));
+                isolatedList.Add(new IsolatedDto(encounteredPatient, potentialPatientDetails));
             }
             return Ok("isolatedList");
         }
@@ -42,7 +47,8 @@ namespace covidtracking.Controllers{
         //DELETE /patients/isolated/{key}
         [HttpDelete]
         [Route("/patients/isolated/{key}")]
-        public async Task DeleteIsolatedAsync([FromRoute]string key){
+        public async Task DeleteIsolatedAsync([FromRoute] string key)
+        {
             await _model.DeleteIsolatedAsync(key);
         }
     }

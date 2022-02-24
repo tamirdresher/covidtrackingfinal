@@ -4,7 +4,8 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBPotentialPatientsModel : IPotentialPatientsDB
     {
         //Database access constants
@@ -15,7 +16,8 @@ namespace covidtracking.Database{
         private readonly IMongoCollection<PotentialPatient> potentialPatientsCollection;
         private readonly FilterDefinitionBuilder<PotentialPatient> filterBuilder;
 
-        public MongoDBPotentialPatientsModel(IMongoClient mongoClient){
+        public MongoDBPotentialPatientsModel(IMongoClient mongoClient)
+        {
             filterBuilder = Builders<PotentialPatient>.Filter;
             IMongoDatabase database = mongoClient.GetDatabase(DatabaseName);
             potentialPatientsCollection = database.GetCollection<PotentialPatient>(CollectionName);
@@ -25,8 +27,8 @@ namespace covidtracking.Database{
         //adds the new potential patient to the potential patients DB
         public async Task CreatePotentialPatientAsync(PotentialPatient potentialPatient)
         {
-            var filter = filterBuilder.Eq( p => p.key, potentialPatient.key);
-            if(await potentialPatientsCollection.Find(filter).SingleOrDefaultAsync()==null)
+            var filter = filterBuilder.Eq(p => p.key, potentialPatient.key);
+            if (await potentialPatientsCollection.Find(filter).SingleOrDefaultAsync() == null)
                 await potentialPatientsCollection.InsertOneAsync(potentialPatient);
         }
 
@@ -35,23 +37,23 @@ namespace covidtracking.Database{
         //Used to check if a new LabTests entity needs to be created when adding a new Patient
         public async Task<bool> CheckIfPotentialPatientExistsAsync(string key)
         {
-            var filter = filterBuilder.Eq( p => p.key, key);
-            return (await potentialPatientsCollection.Find(filter).SingleOrDefaultAsync()!=null);
+            var filter = filterBuilder.Eq(p => p.key, key);
+            return (await potentialPatientsCollection.Find(filter).SingleOrDefaultAsync() != null);
         }
 
         //This method removes a single entity from the potentialpatients DB.
         //Used when converting to a verified Patient or when healing.
         public async Task DeletePotentialPatient(string key)
         {
-            var filter = filterBuilder.Eq( s => s.key, key);
-            await potentialPatientsCollection.DeleteOneAsync(filter); 
+            var filter = filterBuilder.Eq(s => s.key, key);
+            await potentialPatientsCollection.DeleteOneAsync(filter);
         }
 
         //This method checks if a given key belongs to a Potential Patient in the potential patients
         //db and returns the potential patient if found or null if not
         public async Task<PotentialPatient> GetPotentialPatientByIdAsync(string key)
         {
-            var filter = filterBuilder.Eq( p => p.key, key);
+            var filter = filterBuilder.Eq(p => p.key, key);
             return await potentialPatientsCollection.Find(filter).SingleOrDefaultAsync();
         }
 
@@ -68,7 +70,8 @@ namespace covidtracking.Database{
         {
             HashSet<string> potentialKeySet = new HashSet<string>();
             var potentialPatients = potentialPatientsCollection.Find(new BsonDocument()).ToListAsync().Result;
-            foreach(PotentialPatient p in potentialPatients){
+            foreach (PotentialPatient p in potentialPatients)
+            {
                 potentialKeySet.Add(p.key);
             }
             return potentialKeySet;
@@ -80,10 +83,10 @@ namespace covidtracking.Database{
         {
             var nameRegex = @"^[a-zA-Z]+(([ -][a-zA-Z ])?[a-zA-Z]*)*$";
             var phoneRegex = @"^[0-9.-]+$";
-            if(Regex.Match(potentialPatient.firstName, nameRegex).Success == false || 
+            if (Regex.Match(potentialPatient.firstName, nameRegex).Success == false ||
                 Regex.Match(potentialPatient.lastName, nameRegex).Success == false ||
                 Regex.Match(potentialPatient.phoneNumber, phoneRegex).Success == false)
-                    return false;
+                return false;
             return true;
         }
     }

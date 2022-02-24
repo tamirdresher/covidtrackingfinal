@@ -1,5 +1,7 @@
-namespace covidtracking.Entities{
-    public class Address{
+namespace covidtracking.Entities
+{
+    public class Address
+    {
         public string city { get; set; }
         public string street { get; set; }
         public int houseNumber { get; set; }

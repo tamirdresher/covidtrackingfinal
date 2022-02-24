@@ -2,13 +2,14 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBIsolatedModel : IIsolatedDB
     {
         //Database access constants
         private const string DatabaseName = "covidtracking";
         private const string CollectionName = "isolated";
-        
+
         //Properties
         private readonly IMongoCollection<Isolated> isolatedCollection;
         private readonly FilterDefinitionBuilder<Isolated> filterBuilder;
@@ -87,13 +88,15 @@ namespace covidtracking.Database{
             isolated.id = newKey;
             await isolatedCollection.ReplaceOneAsync(filter, isolated);
         }
-        
+
         //This method returns the patient id that a given potential patient has encountered.
         //It is used to convert from a potential patient to an actual patient
-        public async Task<string> GetEncounteredPatientId(string id){
+        public async Task<string> GetEncounteredPatientId(string id)
+        {
             var filter = filterBuilder.Eq(i => i.id, id);
-            Isolated isolated =  await isolatedCollection.Find(filter).SingleOrDefaultAsync();
-            if(isolated == null){
+            Isolated isolated = await isolatedCollection.Find(filter).SingleOrDefaultAsync();
+            if (isolated == null)
+            {
                 return null;
             }
             return isolated.encounteredId;

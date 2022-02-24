@@ -1,8 +1,9 @@
 using System.Collections;
 using covidtracking.Entities;
 
-namespace covidtracking.Database{
-        public interface IPatientsDB
+namespace covidtracking.Database
+{
+    public interface IPatientsDB
     {
         Task CreatePatientAsync(Patient patient);
         Task DeletePatientAsync(string id);

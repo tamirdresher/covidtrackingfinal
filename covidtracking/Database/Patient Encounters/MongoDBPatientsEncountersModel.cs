@@ -4,7 +4,8 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBPatientsEncountersModel : IPatientsEncountersDB
     {
         //Database access constants
@@ -51,11 +52,14 @@ namespace covidtracking.Database{
         {
             var allEncounters = patientEncountersCollection.Find(new BsonDocument()).ToListAsync().Result;
             List<PotentialPatientsEncounterDto> encountersWithUninterviewed = new List<PotentialPatientsEncounterDto>();
-            foreach(PatientEncounter potentialEncounters in allEncounters){
-                foreach(PotentialPatient potentialPatient in potentialEncounters.potentialPatientsEncountered){
-                    if(potentialPatientsKeys.Contains(potentialPatient.key)){
+            foreach (PatientEncounter potentialEncounters in allEncounters)
+            {
+                foreach (PotentialPatient potentialPatient in potentialEncounters.potentialPatientsEncountered)
+                {
+                    if (potentialPatientsKeys.Contains(potentialPatient.key))
+                    {
                         encountersWithUninterviewed.Add(new PotentialPatientsEncounterDto(
-                            (Patient)patients[potentialEncounters.id],potentialPatient));
+                            (Patient)patients[potentialEncounters.id], potentialPatient));
                     }
                 }
             }
@@ -68,7 +72,7 @@ namespace covidtracking.Database{
         {
             await patientEncountersCollection.InsertOneAsync(new PatientEncounter(id));
         }
-        
+
         //Reset current collection
         public async Task ResetCollectionAsync()
         {

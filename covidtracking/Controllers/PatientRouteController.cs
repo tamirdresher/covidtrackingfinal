@@ -3,10 +3,12 @@ using covidtracking.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using covidtracking.Utilities;
 
-namespace covidtracking.Controllers{
+namespace covidtracking.Controllers
+{
     [ApiController]
     [Route("[controller]")]
-    public class PatientRouteController : ControllerBase{
+    public class PatientRouteController : ControllerBase
+    {
         private readonly IPatientsDB _patientsDbModel;
         private readonly IPatientRoutesDB _model;
 
@@ -20,9 +22,11 @@ namespace covidtracking.Controllers{
         //GET /patients/{id}/route
         [HttpGet]
         [Route("/patients/{id}/route")]
-        public async Task<ActionResult<IEnumerable<PatientRouteDto>>> GetPatientRouteAsync([FromRoute]string id){
+        public async Task<ActionResult<IEnumerable<PatientRouteDto>>> GetPatientRouteAsync([FromRoute] string id)
+        {
             var patientRoute = await _model.GetPatientRouteByIdAsync(id);
-            if(patientRoute is null){
+            if (patientRoute is null)
+            {
                 return NotFound();
             }
             PatientRouteDto patientRouteDto = patientRoute.PatientRouteAsDto();

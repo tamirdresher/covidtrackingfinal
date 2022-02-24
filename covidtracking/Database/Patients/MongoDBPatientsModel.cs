@@ -4,7 +4,8 @@ using covidtracking.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBPatientsModel : IPatientsDB
     {
         //Constants
@@ -66,12 +67,13 @@ namespace covidtracking.Database{
         {
             Hashtable patientsTable = new Hashtable();
             var patients = await patientsCollection.Find(new BsonDocument()).ToListAsync();
-            foreach(Patient p in patients){
+            foreach (Patient p in patients)
+            {
                 patientsTable.Add(p.govtId, p);
             }
             return patientsTable;
         }
-        
+
         //This method checks if a new Patient object addition attempt is valid by verifying the input format.
         //The method returns true if the format is valid or false if not.
         public bool CheckValidPatientInput(Patient patient)
@@ -81,14 +83,14 @@ namespace covidtracking.Database{
             var nameRegex = @"^[a-zA-Z]+(([ -][a-zA-Z ])?[a-zA-Z]*)*$";
             var phoneRegex = @"^[0-9.-]+$";
             var cityRegex = @"^[a-zA-Z]+(([ ][a-zA-Z ])?[a-zA-Z]*)*$";
-            if(patient == null || patientsCollection.Find(filter).SingleOrDefault()!=null || 
+            if (patient == null || patientsCollection.Find(filter).SingleOrDefault() != null ||
                 Regex.Match(patient.govtId, idRegex).Success == false ||
-                Regex.Match(patient.firstName, nameRegex).Success == false || 
+                Regex.Match(patient.firstName, nameRegex).Success == false ||
                 Regex.Match(patient.lastName, nameRegex).Success == false ||
                 Regex.Match(patient.phoneNumber, phoneRegex).Success == false ||
                 Regex.Match(patient.address.city, cityRegex).Success == false ||
                 (patient.infectedByPatientID != null && Regex.Match(patient.infectedByPatientID, idRegex).Success == false))
-                    return false;
+                return false;
             return true;
         }
 
@@ -99,8 +101,10 @@ namespace covidtracking.Database{
         {
             var patients = await patientsCollection.Find(new BsonDocument()).ToListAsync();
             List<Patient> matchingPatients = new List<Patient>();
-            foreach(Patient p in patients){
-                if(infectedIds.Contains(p.govtId) == true){
+            foreach (Patient p in patients)
+            {
+                if (infectedIds.Contains(p.govtId) == true)
+                {
                     matchingPatients.Add(p);
                 }
             }

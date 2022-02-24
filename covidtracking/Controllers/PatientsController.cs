@@ -4,10 +4,12 @@ using covidtracking.Entities;
 using Microsoft.AspNetCore.Mvc;
 using covidtracking.Utilities;
 
-namespace covidtracking.Controllers{
+namespace covidtracking.Controllers
+{
     [ApiController]
     [Route("[controller]")]
-    public class PatientsController : ControllerBase{
+    public class PatientsController : ControllerBase
+    {
         private readonly IPatientsDB _model;
         private readonly IPotentialPatientsDB _potentialPatientsDbModel;
         private readonly IIsolatedDB _isolatedDbModel;
@@ -32,15 +34,17 @@ namespace covidtracking.Controllers{
         }
 
         /* GET */
-        
+
         //This method returns all the verified patients from the patients DB
         //GET /patients
         [HttpGet]
         [Route("/patients")]
-        public async Task<ActionResult<List<GetPatientDto>>> GetPatientsAsync(){
+        public async Task<ActionResult<List<GetPatientDto>>> GetPatientsAsync()
+        {
             var patients = (await _model.GetPatientsAsync());
             List<GetPatientDto> list = new List<GetPatientDto>();
-            foreach(Patient p in patients){
+            foreach (Patient p in patients)
+            {
                 list.Add(new GetPatientDto(p));
             }
             return Ok(list);
@@ -50,10 +54,12 @@ namespace covidtracking.Controllers{
         //GET /patients/{id}/full
         [HttpGet]
         [Route("/patients/{id}/full")]
-        public async Task<ActionResult<PatientInformationDto>> GetPatientAsync([FromRoute]string id){
+        public async Task<ActionResult<PatientInformationDto>> GetPatientAsync([FromRoute] string id)
+        {
             var patient = await _model.GetPatientAsync(id);
             var labtests = await _labtestsDbModel.GetLabTests(id);
-            if(patient is null){
+            if (patient is null)
+            {
                 return NotFound();
             }
             PatientInformationDto patientInformationDto = new PatientInformationDto(patient, labtests);
@@ -68,9 +74,11 @@ namespace covidtracking.Controllers{
         //PUT /patients
         [HttpPut]
         [Route("/patients")]
-        public async Task<ActionResult<string>> CreatePatientAsync([FromBody]CreatePatientDto createPatientDto){//ADD REGEX FOR ID, EMAIL, PHONE etc..
+        public async Task<ActionResult<string>> CreatePatientAsync([FromBody] CreatePatientDto createPatientDto)
+        {//ADD REGEX FOR ID, EMAIL, PHONE etc..
             Patient patient = new Patient(createPatientDto);
-            if(_model.CheckValidPatientInput(patient) == false){
+            if (_model.CheckValidPatientInput(patient) == false)
+            {
                 return BadRequest();
             }
             await _model.CreatePatientAsync(patient);
@@ -81,7 +89,8 @@ namespace covidtracking.Controllers{
             await _infectedDbModel.AddInfectedToDB(patient.govtId, DateTime.UtcNow);
             _statisticsDbModel.AddCityToDb(patient.address.city);
             _statisticsDbModel.UpdateIsolated('+');
-            if(patient.isCovidPositive == true){
+            if (patient.isCovidPositive == true)
+            {
                 _statisticsDbModel.UpdateCityInfected(patient.address.city, '+');
             }
             return Ok(patient.govtId);
@@ -92,13 +101,16 @@ namespace covidtracking.Controllers{
         //PUT /patients/{id}/route
         [HttpPut]
         [Route("/patients/{id}/route")]
-        public async Task<ActionResult<PatientVisitDto>> AddVisitToPatientAsync([FromRoute]string id, [FromBody] CreateVisitDto createVisitDto){
+        public async Task<ActionResult<PatientVisitDto>> AddVisitToPatientAsync([FromRoute] string id, [FromBody] CreateVisitDto createVisitDto)
+        {
             var patient = await _model.GetPatientAsync(id);
-            if(patient is null){
+            if (patient is null)
+            {
                 return NotFound();
             }
             Visit visit = new Visit(createVisitDto);
-            if(_routesDbModel.CheckValidVisitInput(visit) == false || (DateTime.Now - createVisitDto.dateOfVisit).TotalDays > 7){
+            if (_routesDbModel.CheckValidVisitInput(visit) == false || (DateTime.Now - createVisitDto.dateOfVisit).TotalDays > 7)
+            {
                 return BadRequest();
             }
             await _routesDbModel.CreateVisitAsync(id, visit);
@@ -108,21 +120,24 @@ namespace covidtracking.Controllers{
         }
 
         /* POST */
-        
+
         //This endpoint transforms the potential patient to an actual patient.
         //This method activates all the needed creation functions to initialize all the entity's
         //information across the different databases.
         // //POST patients/potential/{potentialPatientId}
         [HttpPost]
         [Route("/patients/potential/{potentialPatientId}")]
-        public async Task<ActionResult<PatientDto>> MakeInterviewAsync([FromRoute]string potentialPatientId, [FromBody]CreatePatientDto potentialToPatientDto){
+        public async Task<ActionResult<PatientDto>> MakeInterviewAsync([FromRoute] string potentialPatientId, [FromBody] CreatePatientDto potentialToPatientDto)
+        {
             var potentialPatient = await _potentialPatientsDbModel.GetPotentialPatientByIdAsync(potentialPatientId);
-            if(potentialPatient is null){
+            if (potentialPatient is null)
+            {
                 return NotFound();
             }
             string infectedBy = await _isolatedDbModel.GetEncounteredPatientId(potentialPatientId);
             Patient patient = (new Adapters()).PotentialPatientToPatient(potentialToPatientDto, infectedBy);
-            if(_model.CheckValidPatientInput(patient) == false){
+            if (_model.CheckValidPatientInput(patient) == false)
+            {
                 return BadRequest();
             }
             await _model.CreatePatientAsync(patient);
@@ -132,19 +147,21 @@ namespace covidtracking.Controllers{
             await _isolatedDbModel.UpdateIsolatedEntityAsync(potentialPatientId, patient.govtId);
             await _potentialPatientsDbModel.DeletePotentialPatient(potentialPatientId);
             _statisticsDbModel.AddCityToDb(patient.address.city);
-            if(patient.isCovidPositive == true){
+            if (patient.isCovidPositive == true)
+            {
                 _statisticsDbModel.UpdateCityInfected(patient.address.city, '+');
             }
             return Ok(patient.PatientAsGetPatientDto());
         }
 
         /* DELETE */
-        
+
         //This endpoint resets the database
         //DELETE patients/all
         [HttpDelete]
         [Route("/patients/all")]
-        public async Task ResetDatabasteAsync(){
+        public async Task ResetDatabasteAsync()
+        {
             await _model.ResetCollectionAsync();
             await _isolatedDbModel.ResetCollectionAsync();
             await _labtestsDbModel.ResetCollectionAsync();
