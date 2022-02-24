@@ -2,7 +2,8 @@ using System.Text.RegularExpressions;
 using covidtracking.Entities;
 using MongoDB.Driver;
 
-namespace covidtracking.Database{
+namespace covidtracking.Database
+{
     public class MongoDBPatientsRoutesModel : IPatientRoutesDB
     {
         //Database access constants
@@ -25,9 +26,9 @@ namespace covidtracking.Database{
         public bool CheckValidVisitInput(Visit visit)
         {
             var cityRegex = @"^[a-zA-Z]+(([ ][a-zA-Z ])?[a-zA-Z]*)*$";
-            if(Regex.Match(visit.siteAddress.city, cityRegex).Success == false ||
+            if (Regex.Match(visit.siteAddress.city, cityRegex).Success == false ||
                 visit.siteAddress.street == "")
-                    return false;
+                return false;
             return true;
         }
 

@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using covidtracking.Utilities;
 using System.Collections;
 
-namespace covidtracking.Controllers{
+namespace covidtracking.Controllers
+{
     [ApiController]
     [Route("[controller]")]
-    public class PatientEncountersController : ControllerBase{
+    public class PatientEncountersController : ControllerBase
+    {
         private readonly IPatientsDB _patientsDbModel;
         private readonly IPotentialPatientsDB _potentialPatientsDbModel;
         private readonly IIsolatedDB _isolatedDbModel;
@@ -33,23 +35,26 @@ namespace covidtracking.Controllers{
         //GET /patients/{id}/encounters
         [HttpGet]
         [Route("/patients/{id}/encounters")]
-        public async Task<ActionResult<PatientEncountersDto>> GetEncountersAsync([FromRoute]string id){
+        public async Task<ActionResult<PatientEncountersDto>> GetEncountersAsync([FromRoute] string id)
+        {
             var patient = await _model.GetPatientEncountersAsync(id);
-            if(patient is null){
+            if (patient is null)
+            {
                 return NotFound();
             }
             return Ok(patient.PatientEncountersAsDto());
         }
-        
+
         //Returns the list of encounters where the person details were not inserted yet
         //GET /patients/potential
         [HttpGet]
         [Route("/patients/potential")]
-        public ActionResult<IEnumerable<PotentialPatientsEncounterDto>> GetPotentialPatientsAsync(){
+        public ActionResult<IEnumerable<PotentialPatientsEncounterDto>> GetPotentialPatientsAsync()
+        {
             HashSet<string> potentialPatients = _potentialPatientsDbModel.CreateHashSet();
             Hashtable patientsTable = _patientsDbModel.CreateHashTable().Result;
             var encounters = _model.GetPotentialPatientsEncounters(potentialPatients, patientsTable);
-            if(encounters == null)
+            if (encounters == null)
                 return NotFound();
             return Ok(encounters);
         }
@@ -60,23 +65,27 @@ namespace covidtracking.Controllers{
         //PUT /patients/{id}/encounters
         [HttpPut]
         [Route("/patients/{id}/encounters")]
-        public async Task<ActionResult> AddEncounteredAsync([FromRoute]string id, [FromBody] CreatePotentialPatientDto createPotentialPatientDto){
+        public async Task<ActionResult> AddEncounteredAsync([FromRoute] string id, [FromBody] CreatePotentialPatientDto createPotentialPatientDto)
+        {
             var patientEncounters = await _model.GetPatientEncountersAsync(id);
-            if(patientEncounters is null){
+            if (patientEncounters is null)
+            {
                 return NotFound();
             }
             PotentialPatient potentialPatient = new PotentialPatient(createPotentialPatientDto);
-            if(_potentialPatientsDbModel.CheckValidPotentialPatientInput(potentialPatient) == false){
+            if (_potentialPatientsDbModel.CheckValidPotentialPatientInput(potentialPatient) == false)
+            {
                 return BadRequest();
             }
-            if(_potentialPatientsDbModel.CheckIfPotentialPatientExistsAsync(potentialPatient.key).Result == false){
-                    //Update isolated DB
-                    await _isolatedDbModel.CreateIsolated(potentialPatient.key, id);
-                    //Add to suspects DB
-                    await _potentialPatientsDbModel.CreatePotentialPatientAsync(potentialPatient);
-                    //Update statistics DB
-                    _statisticsDbModel.UpdateIsolated('+');
-                }
+            if (_potentialPatientsDbModel.CheckIfPotentialPatientExistsAsync(potentialPatient.key).Result == false)
+            {
+                //Update isolated DB
+                await _isolatedDbModel.CreateIsolated(potentialPatient.key, id);
+                //Add to suspects DB
+                await _potentialPatientsDbModel.CreatePotentialPatientAsync(potentialPatient);
+                //Update statistics DB
+                _statisticsDbModel.UpdateIsolated('+');
+            }
             //Add to patient's list
             await _model.AddPatientEncounterAsync(id, potentialPatient);
             //Return object

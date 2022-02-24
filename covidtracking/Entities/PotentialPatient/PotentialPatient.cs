@@ -1,7 +1,8 @@
 using System.Runtime.ConstrainedExecution;
 using covidtracking.Dtos;
 
-namespace covidtracking.Entities{
+namespace covidtracking.Entities
+{
     public class PotentialPatient : IPatient
     {
         public string key { get; set; }
@@ -9,29 +10,33 @@ namespace covidtracking.Entities{
         public string lastName { get; set; }
         public string phoneNumber { get; set; }
 
-        public PotentialPatient(CreatePotentialPatientDto createPotentialPatientDto){
+        public PotentialPatient(CreatePotentialPatientDto createPotentialPatientDto)
+        {
             firstName = createPotentialPatientDto.firstName;
             lastName = createPotentialPatientDto.lastName;
             phoneNumber = createPotentialPatientDto.phoneNumber;
-            key = firstName+lastName+phoneNumber;
+            key = firstName + lastName + phoneNumber;
         }
 
-        public PotentialPatient(string fname, string lname, string phone){
+        public PotentialPatient(string fname, string lname, string phone)
+        {
             firstName = fname;
             lastName = lname;
             phoneNumber = phone;
-            key = firstName+lastName+phoneNumber;
+            key = firstName + lastName + phoneNumber;
         }
 
-        public PotentialPatient(Patient patient){
+        public PotentialPatient(Patient patient)
+        {
             firstName = patient.firstName;
             lastName = patient.lastName;
             phoneNumber = patient.phoneNumber;
-            key = firstName+lastName+phoneNumber;
+            key = firstName + lastName + phoneNumber;
         }
 
-        public string GetKey(){
-            return firstName+lastName+phoneNumber;
+        public string GetKey()
+        {
+            return firstName + lastName + phoneNumber;
         }
 
         public string GetFirstName()
@@ -51,7 +56,7 @@ namespace covidtracking.Entities{
 
         public string GetId()
         {
-            return firstName+lastName+phoneNumber;
+            return firstName + lastName + phoneNumber;
         }
     }
 }

@@ -2,10 +2,12 @@ using covidtracking.Database;
 using covidtracking.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace covidtracking.Controllers{
+namespace covidtracking.Controllers
+{
     [ApiController]
     [Route("[controller]")]
-    public class StatisticsController : ControllerBase{
+    public class StatisticsController : ControllerBase
+    {
         private readonly IStatisticsDb _model;
 
         public StatisticsController(IStatisticsDb model)
@@ -18,9 +20,11 @@ namespace covidtracking.Controllers{
         //GET /statistics
         [HttpGet]
         [Route("/statistics")]
-        public ActionResult<Statistics> GetCurrentStatistics(){
+        public ActionResult<Statistics> GetCurrentStatistics()
+        {
             var statistics = _model.GetCurrentStatistics();
-            if(statistics == null){
+            if (statistics == null)
+            {
                 _model.InitStatisticsDb();
                 return Ok(new Statistics());
             }

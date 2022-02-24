@@ -2,20 +2,23 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using covidtracking.Dtos;
 
-namespace covidtracking.Entities{
-    public class Patient : IPatient{
-            public string govtId { get; set; }
-            public string firstName { get; set; }
-            public string lastName { get; set; }
-            public DateTime birthDate { get; set; }
-            public string phoneNumber { get; set; }
-            public string email { get; set; }
-            public Address address  { get; set; }
-            public int houseResidentsAmount { get; set; }
-            public bool isCovidPositive { get; set; }
-            public string? infectedByPatientID { get; set; }
+namespace covidtracking.Entities
+{
+    public class Patient : IPatient
+    {
+        public string govtId { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public DateTime birthDate { get; set; }
+        public string phoneNumber { get; set; }
+        public string email { get; set; }
+        public Address address { get; set; }
+        public int houseResidentsAmount { get; set; }
+        public bool isCovidPositive { get; set; }
+        public string? infectedByPatientID { get; set; }
 
-        public Patient(CreatePatientDto createPatientDto){
+        public Patient(CreatePatientDto createPatientDto)
+        {
             govtId = createPatientDto.govtId;
             firstName = createPatientDto.firstName;
             lastName = createPatientDto.lastName;
@@ -28,7 +31,8 @@ namespace covidtracking.Entities{
             infectedByPatientID = null;
         }
 
-        public Patient(PotentialToPatientDto potentialToPatientDto){
+        public Patient(PotentialToPatientDto potentialToPatientDto)
+        {
             govtId = potentialToPatientDto.govtId;
             firstName = potentialToPatientDto.firstName;
             lastName = potentialToPatientDto.lastName;
@@ -43,14 +47,16 @@ namespace covidtracking.Entities{
 
         public Patient(string id, string fname, string lname, DateTime bdate, string phone,
                         string email, string _city, string _street, int _house, int _appartment,
-                        bool issick, int residents, string infectedby){
+                        bool issick, int residents, string infectedby)
+        {
             govtId = id;
             firstName = fname;
             lastName = lname;
             birthDate = bdate;
             phoneNumber = phone;
             this.email = email;
-            address = new(){
+            address = new()
+            {
                 city = _city,
                 street = _street,
                 houseNumber = _house,
@@ -59,10 +65,11 @@ namespace covidtracking.Entities{
             isCovidPositive = issick;
             houseResidentsAmount = residents;
             infectedByPatientID = infectedby;
-         }
+        }
 
-        public string GetKey(){
-            return firstName+lastName+phoneNumber;
+        public string GetKey()
+        {
+            return firstName + lastName + phoneNumber;
         }
 
         public string GetFirstName()

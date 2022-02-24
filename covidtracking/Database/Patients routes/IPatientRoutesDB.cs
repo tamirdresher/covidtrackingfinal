@@ -1,7 +1,8 @@
 using covidtracking.Entities;
 
-namespace covidtracking.Database{
-        public interface IPatientRoutesDB
+namespace covidtracking.Database
+{
+    public interface IPatientRoutesDB
     {
         Task CreateVisitAsync(string id, Visit visit);
         Task<PatientRoute> GetPatientRouteByIdAsync(string id);
