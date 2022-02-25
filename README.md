@@ -1,7 +1,7 @@
 <h1>Covid Patients Tracking System</h1>
 A C# REST Api based system that allows different CRUD functions
 
-<h2>Funcionality</h2>
+<h2>Functionality</h2>
 This system interacts with a remote MongoDB database.</br>
 It allows patient creation, deletion and update.</br>
 A nurse can use the different CRUD Endpoints to update the database with new patients that need to be tracked, </br>
@@ -12,7 +12,7 @@ and get different statistics about healed, infected and isolated people in our s
 <h2>Structure</h2>
 The solution contains 2 projects:</br>
 The first is 'covidtracking' - the project containing the system, implementd as a REST API service with different CRUD endpoints.</br>
-The second is 'covidtracking.UnitTests' - the test project, containing different unit tests implemented with xUnit that cover the funcionality of the system.</br>
+The second is 'covidtracking.UnitTests' - the test project, containing different unit tests implemented with xUnit that cover the functionality of the system.</br>
 The database used in this project is MongoDB and the connection string is hardcoded to ease the usage and testing.</br>
 
 <h2>Architecture:</h2>
@@ -60,7 +60,7 @@ The tests include ActionResult type Assertion, returned value comparison and it 
 
 <h1>Build and Workflow</h1>
 <h2>Build and run</h2>
-To run the project you just need to clone the repository and perform a regular run using VSCode/Visual Studio.</br>
+To run the project, you just need to clone the repository and perform a regular run using VSCode/Visual Studio.</br>
 The project supports Swagger UI or can be accessed using Postman.</br>
 Use "https://localhost:7122/swagger/index.html" for Swagger or just "https://localhost:7122/" for Postman.</br>
 We created a Postman workspace containing the different Endpoints the system has at:</br>
