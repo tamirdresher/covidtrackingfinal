@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nivik\\Desktop\\SWengFinal\\CovidTrackingSolution\\CovidTrackingSystem\\covidtracking\\covidtracking.csproj": {}
+    "C:\\Users\\nivik\\Desktop\\Github\\covidtrackingfinal\\covidtracking\\covidtracking.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nivik\\Desktop\\SWengFinal\\CovidTrackingSolution\\CovidTrackingSystem\\covidtracking\\covidtracking.csproj": {
+    "C:\\Users\\nivik\\Desktop\\Github\\covidtrackingfinal\\covidtracking\\covidtracking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nivik\\Desktop\\SWengFinal\\CovidTrackingSolution\\CovidTrackingSystem\\covidtracking\\covidtracking.csproj",
+        "projectUniqueName": "C:\\Users\\nivik\\Desktop\\Github\\covidtrackingfinal\\covidtracking\\covidtracking.csproj",
         "projectName": "covidtracking",
-        "projectPath": "C:\\Users\\nivik\\Desktop\\SWengFinal\\CovidTrackingSolution\\CovidTrackingSystem\\covidtracking\\covidtracking.csproj",
+        "projectPath": "C:\\Users\\nivik\\Desktop\\Github\\covidtrackingfinal\\covidtracking\\covidtracking.csproj",
         "packagesPath": "C:\\Users\\nivik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nivik\\Desktop\\SWengFinal\\CovidTrackingSolution\\CovidTrackingSystem\\covidtracking\\obj\\",
+        "outputPath": "C:\\Users\\nivik\\Desktop\\Github\\covidtrackingfinal\\covidtracking\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
