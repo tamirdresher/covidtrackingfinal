@@ -62,6 +62,7 @@ The tests include ActionResult type Assertion, returned value comparison and it 
 <h2>Build and run</h2>
 There are 2 ways to run this project:
 The first option, run the project locally you just need to clone the repository and perform a regular run using VSCode/Visual Studio. The program will run on localhost, Port 7122 (https).</br>
+To run the project, you just need to clone the repository and perform a regular run using VSCode/Visual Studio.</br>
 The project supports Swagger UI or can be accessed using Postman.</br>
 Use "https://localhost:7122/swagger/index.html" for Swagger or just "https://localhost:7122/" for Postman.</br>
 We created a Postman workspace containing the different Endpoints the system has at:</br>
