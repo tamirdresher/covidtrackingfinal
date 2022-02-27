@@ -11,7 +11,7 @@ and get different statistics about healed, infected and isolated people in our s
 
 <h2>Structure</h2>
 The solution contains 2 projects:</br>
-The first is 'covidtracking' - the project containing the system, implementd as a REST API service with different CRUD endpoints.</br>
+The first is 'covidtracking' - the project containing the system, implemented as a REST API service with different CRUD endpoints.</br>
 The second is 'covidtracking.UnitTests' - the test project, containing different unit tests implemented with xUnit that cover the functionality of the system.</br>
 The database used in this project is MongoDB and the connection string is hardcoded to ease the usage and testing.</br>
 
@@ -22,15 +22,15 @@ It contains divided into layers, kept in several folders, each contains the file
 
 <b>Controllers:</b></br>
 The controllers are the layer that handles the different Http requests the API uses.</br>
-Each controller handles the appropriate requests realated to that area of the project/data:</br>
+Each controller handles the appropriate requests related to that area of the project/data:</br>
 For example:</br>
 LabTestController handles requests related to lab tests creation,</br>
-StatisticsController handles statistics fetching from the database and etc.</br>
+StatisticsController handles statistics fetching from the database etc.</br>
 Each controller communicates with the appropriate databases/collections needed for its operations.</br>
 
 <b>Database:</b></br>
 The database layer contains the different database models, each in its own internal folder for order and convenience.</br>
-While we used MongoDB as our database in this project, any other DB (f.e. SQL SERVER...) can be used by implementing each model's</br>
+While we used MongoDB as our database in this project, any other DB (SQL SERVER...) can be used by implementing each model's</br>
 interface contract. By using the Interfaces we enable our system to be more generic and responsive.</br>
 The current concrete (MongoDB) models are injected using Dependency Injection in the Program.cs file.</br>
 Each controller may use different DB models but each model only communicates with its single database/collection.</br>
@@ -38,7 +38,7 @@ Each controller may use different DB models but each model only communicates wit
 
 <b>Dtos:</b></br>
 We used Dtos (Data transfer objects) to handle Object creation and data transfer in a safe and agreed manner.</br>
-Each area has its own Dtos and they are used accross the project to create links and provide correct connections.</br>
+Each area has its own Dtos and they are used across the project to create links and provide correct connections.</br>
 
 <b>Entities:</b></br>
 The entities represent each Entity's formal implementation.</br>
@@ -48,7 +48,7 @@ The Mongo database knows and stores those entities (while the internal data most
 The Settings folder contains the MongoDB settings (connection string).</br>
 
 <b>Utilities:</b></br>
-The Utitilites folder contains different adapters and extensions used across the project.</br>
+The Utilities folder contains different adapters and extensions used across the project.</br>
 
 <h2>Testing</h2>
 The project contains internal methods and statements to verify correctness of flow and protection in different edge points.</br>
@@ -68,7 +68,7 @@ Use "https://localhost:7122/swagger/index.html" for Swagger or just "https://loc
 We created a Postman workspace containing the different Endpoints the system has at:</br>
 https://www.postman.com/lunar-firefly-552571/workspace/covidtracking</br>
 The second option in running using docker:</br>
-Start any terminal session (cmd, powershell, on VsCode, etc..) and write:</br>
+Start any terminal session (cmd, PowerShell, on VsCode, etc..) and write:</br>
 docker run -it --rm -p 8080:80 nivrave/covidtrackingfinal:latest</br>
 After downloading the image, the project will run on a docker container.</br>
 Pay attention that in this method the Protocol will be http (not https) and the Port is 8080 (not 7122).</br>
@@ -77,8 +77,8 @@ http://localhost:8080</br>
 
 
 <h2>CI/CD</h2>
-This github repository has an automatic CI/CD workflow.</br>
-It is implemented using github actions and is activated on each push/pull request to the 'main' branch.</br>
+This GitHub repository has an automatic CI/CD workflow.</br>
+It is implemented using 'GitHub Actions' and is activated on each push/pull request to the 'main' branch.</br>
 The workflow builds the project and commits 30 unit tests.</br>
 If those stages are passed - the Docker image is built (updated) and deployed to the docker</br>
 hub repository at nivrave/covidtrackingfinal</br>
