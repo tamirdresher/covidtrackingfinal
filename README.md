@@ -60,15 +60,28 @@ The tests include ActionResult type Assertion, returned value comparison and it 
 
 <h1>Build and Workflow</h1>
 <h2>Build and run</h2>
+There are 2 ways to run this project:
+The first option, run the project locally you just need to clone the repository and perform a regular run using VSCode/Visual Studio. The program will run on localhost, Port 7122 (https).</br>
 To run the project, you just need to clone the repository and perform a regular run using VSCode/Visual Studio.</br>
 The project supports Swagger UI or can be accessed using Postman.</br>
 Use "https://localhost:7122/swagger/index.html" for Swagger or just "https://localhost:7122/" for Postman.</br>
 We created a Postman workspace containing the different Endpoints the system has at:</br>
-https://www.postman.com/lunar-firefly-552571/workspace/covidtracking
-<h2>Ci/Cd</h2>
+https://www.postman.com/lunar-firefly-552571/workspace/covidtracking</br>
+The second option in running using docker:</br>
+Start any terminal session (cmd, powershell, on VsCode, etc..) and write:</br>
+docker run -it --rm -p 8080:80 nivrave/covidtrackingfinal:latest</br>
+After downloading the image, the project will run on a docker container.</br>
+Pay attention that in this method the Protocol will be http (not https) and the Port is 8080 (not 7122).</br>
+Use the following address on any communication platform to access the Api:</br>
+http://localhost:8080</br>
+
+
+<h2>CI/CD</h2>
 This github repository has an automatic CI/CD workflow.</br>
 It is implemented using github actions and is activated on each push/pull request to the 'main' branch.</br>
 The workflow builds the project and commits 30 unit tests.</br>
+If those stages are passed - the Docker image is built (updated) and deployed to the docker</br>
+hub repository at nivrave/covidtrackingfinal</br>
 
 <h1>Endpoints</h1>
 
