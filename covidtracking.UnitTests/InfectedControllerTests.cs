@@ -43,7 +43,7 @@ namespace covidtracking.UnitTests
             var result = (await controller.GetPatientsSince("2000, 04, 04")).Result;
 
             // Assert
-            Assert.IsType<OkObjectResult>(result);//change back to NotFoundResult
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
